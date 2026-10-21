@@ -1,5 +1,7 @@
 #include <iostream>
 #include <vector>
+#include <string>
+#include <fstream>
 using namespace std;
 class User {
 private:
@@ -13,6 +15,9 @@ public:
     }
     string getUsername(){
         return this->username;
+    }
+    string getPassword(){
+        return this->password;
     }
     bool checkPassword(string password){
         if(this->password == password){
@@ -71,6 +76,14 @@ public:
         if(!found){
             cout<<"Username not found! Kindly Register!"<<endl;
         }
+    }
+    void saveUsers(){
+        ofstream file("users.txt");
+        for(int i = 0; i<users.size(); i++){
+            file<<users[i].getUsername()<<"\n";
+            file<<users[i].getPassword()<<"\n";
+        }
+        file.close();
     }
 };
 int main() {

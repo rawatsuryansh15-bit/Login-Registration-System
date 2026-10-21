@@ -31,6 +31,14 @@ public:
         cin.ignore();
         cout<<"Enter the username : ";
         getline(cin,username);
+        int size = users.size();
+        for(int i = 0; i<size; i++){
+            if(users[i].getUsername() == username){
+                cout<<"Username already exists! Try another username."<<endl;
+                return;
+            }
+        }
+    
         cout<<"Enter the password : ";
         getline(cin,password);
         User u1(username,password);

@@ -33,9 +33,13 @@ private:
 
 public:
     void registerUser(){
-        string username, password;
+        string username, password, confirmPassword;
         cout<<"Enter the username : ";
         getline(cin,username);
+        if(username.empty()){
+            cout<<"Username cannot be empty...";
+            return;
+        }
         int size = users.size();
         for(int i = 0; i<size; i++){
             if(users[i].getUsername() == username){
@@ -46,9 +50,22 @@ public:
     
         cout<<"Enter the password : ";
         getline(cin,password);
-        User u1(username,password);
-        users.push_back(u1);
-        saveUsers();
+        if(password.empty()){
+            cout<<"Password cannot be Empty...";
+            return;
+        }
+        cout<<"Please re-enter your password : ";
+        getline(cin,confirmPassword);
+        if(password != confirmPassword){
+            cout<<"Password must be same!"<<endl; 
+            return;
+        }
+        else{
+            User u1(username,password);
+            users.push_back(u1);
+            cout<<"Registeration Successfull!!!<<endl";
+            saveUsers();
+        }
     }
     void loginUser(){
         string username;
@@ -79,6 +96,7 @@ public:
     }
     void saveUsers(){
         ofstream file("users.txt");
+        if(!file) cout<<"Error file not opened...";
         for(int i = 0; i<users.size(); i++){
             file<<users[i].getUsername()<<"\n";
             file<<users[i].getPassword()<<"\n";
@@ -99,13 +117,13 @@ int main() {
     LoginSystem system;
     system.loadUsers();
     int choice;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     do {
         cout << "\n1. Register";
         cout << "\n2. Login";
         cout << "\n3. Exit";
         cout << "\nEnter choice: ";
         cin >> choice;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         if (choice == 1)
             system.registerUser();
         else if (choice == 2)
